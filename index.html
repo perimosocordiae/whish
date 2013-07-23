@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>{{cwd}}</title>
+<link rel='stylesheet' href='{{static_url("styles.css")}}'>
+<script type='text/javascript'
+        src='//cdnjs.cloudflare.com/ajax/libs/prototype/1.7.1.0/prototype.js'>
+</script>
+<script type='text/javascript' src='{{static_url("whish.js")}}'></script>
+</head>
+<body>
+
+<div class='title-path'>
+{% for d in cwd_parts %}{% raw d.link() %}{% end %}
+</div>
+
+<a id='options' href='options'>
+    <img src='{{static_url("gear.png")}}'></img></a>
+
+<div id='ls'>
+<ul id='regular'>
+{% for file in files %}
+    <li style='color:{{file.color()}}'>
+    {% raw file.link() %}<span>{% raw file.info() %}</span>
+    </li>
+{% end %}
+<input type='button' id='toggle' value='v' onclick='toggle_hidden()'>
+</ul>
+<ul id='hidden' style='display:none'>
+{% for file in hidden %}
+    <li style='color:{{file.color()}}'>
+        {% raw file.link() %}
+        <span>{% raw file.info() %}</span>
+    </li>
+{% end %}
+</ul>
+</div>
+
+<hr />
+
+<table id='shell-container'>
+<tr><td id='term-prompt'>whish &gt;</td>
+<td><input type='text' id='term-input' onkeyup='cmd(event)' autofocus='autofocus'></td>
+</tr><tr><td colspan=2>
+<pre id='terminal'>
+whish version 0.1, by CJ Carey
+</pre>
+</td></tr></table>
+
+<hr />
+
+<pre id='preview'>
+Click on files to preview them in this space.
+</pre>
+
+</body>
+</html>
