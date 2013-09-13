@@ -9,6 +9,8 @@ import os.path
 import tornado.ioloop
 import tornado.web
 
+from tornado.escape import url_escape
+
 from backend.file_info import File
 from backend.preview import preview
 from backend.commands import ls, shell
@@ -24,7 +26,14 @@ def set_option(key, value, func=lambda x: x):
 
 class MainHandler(tornado.web.RequestHandler):
   def get(self):
-    path = os.path.expanduser(self.get_argument('p',default='~'))
+    path = os.path.expanduser(self.get_argument('p', default='~'))
+
+    # Hack: Redirect to the normalized path.
+    normed = os.path.normpath(path)
+    if path != normed:
+      self.redirect('/?p=' + url_escape(normed))
+      return
+
     files,hidden = ls(path)
     parts = filter(None,path.split('/'))
     cwd_parts = [File('/'+'/'.join(parts[:i])) for i in xrange(len(parts)+1)]
