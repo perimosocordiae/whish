@@ -15,10 +15,10 @@ def ls(path):
   return regulars,dotfiles
 
 
-def shell(cmd):
+def shell(cmd, cwd=None):
   # TODO: keep stdin and stdout separate, but stream both.
   p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
-                       stderr=subprocess.STDOUT, bufsize=1)
+                       stderr=subprocess.STDOUT, bufsize=1, cwd=cwd)
   for line in iter(p.stdout.readline, b''):
     yield line
   p.communicate()  # close p.stdout, wait for the subprocess to exit

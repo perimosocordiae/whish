@@ -66,10 +66,10 @@ class OptionHandler(tornado.web.RequestHandler):
 
 class CommandHandler(tornado.web.RequestHandler):
   def post(self):
+    path = os.path.expanduser(self.get_argument('p',default='~'))
     cmd = self.get_argument('cmd')
-    for line in shell(cmd):
+    for line in shell(cmd, cwd=path):
       self.write(line)
-    # TODO: something that refreshes the page
 
 
 def run(port):
