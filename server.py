@@ -77,8 +77,11 @@ class CommandHandler(tornado.web.RequestHandler):
   def post(self):
     path = os.path.expanduser(self.get_argument('p',default='~'))
     cmd = self.get_argument('cmd')
+    self.write("<tr><td class='term-input'>" + cmd + '</td></tr>')
+    self.write("<tr><td class='term-output'>")
     for line in shell(cmd, cwd=path):
       self.write(line)
+    self.write('</td></tr>')
 
 
 def run(port):

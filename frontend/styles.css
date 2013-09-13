@@ -104,9 +104,24 @@ body {
   outline: none;
 }
 
-#terminal {
-  background-color: #AAA;
-  padding: 0.4em 0.6em;
+#terminal-container {
   max-height: 24em;
   overflow: auto;
+}
+
+#terminal {
+  background-color: #AAA;
+  width: 100%;
+}
+
+#terminal td {
+  padding: 0.4em 0.6em;
+}
+
+.term-input:before {
+  content: "> "
+}
+.term-output {
+  white-space: pre;
+  background-color: lightgoldenrodyellow;
 }

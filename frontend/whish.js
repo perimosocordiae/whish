@@ -66,7 +66,7 @@ function cmd(event){
             parameters: { cmd: term_input, p: getQueryParams(location.search).p },
             insertion: 'bottom',
             onComplete: function() {
-                var t = document.getElementById('terminal');
+                var t = document.getElementById('terminal-container');
                 // Scroll the terminal to the bottom.
                 t.scrollTop = t.scrollHeight;
             }

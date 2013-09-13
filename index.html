@@ -39,13 +39,22 @@
 <hr />
 
 <table id='shell-container'>
-<tr><td id='term-prompt'>whish &gt;</td>
-<td><input type='text' id='term-input' onkeyup='cmd(event)' autofocus='autofocus'></td>
-</tr><tr><td colspan=2>
-<pre id='terminal'>
-Welcome to whish version 0.1
-</pre>
-</td></tr></table>
+ <tr>
+  <td id='term-prompt'>whish &gt;</td>
+  <td>
+   <input type='text' id='term-input' onkeyup='cmd(event)' autofocus='autofocus'>
+  </td>
+ </tr>
+ <tr>
+  <td colspan='2'>
+   <div id='terminal-container'>
+    <table id='terminal'>
+     <tr><td class='term-output'>Welcome to whish version 0.1</td></tr>
+    </table>
+   </div>
+  </td>
+ </tr>
+</table>
 
 <hr />
 
