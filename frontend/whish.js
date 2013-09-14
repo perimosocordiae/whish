@@ -35,16 +35,16 @@ function cmd(event){
         // up arrow
         cmd_history_idx = Math.max(0, cmd_history_idx - 1);
         if (cmd_history_idx > 0) {
-            term_input = cmd_history[cmd_history_idx];
+            event.target.value = cmd_history[cmd_history_idx];
         }
         return;
     } else if (event.keyCode == 40) {
         // down arrow
         cmd_history_idx = Math.min(cmd_history.length, cmd_history_idx + 1);
         if (cmd_history_idx < cmd_history.length) {
-            term_input = cmd_history[cmd_history_idx];
+            event.target.value = cmd_history[cmd_history_idx];
         } else if (cmd_history_idx == cmd_history.length) {
-            term_input = '';
+            event.target.value = '';
         }
         return;
     }
