@@ -25,11 +25,68 @@ function getQueryParams(qs) {
     return params;
 }
 
+// Hack: get current directory listing by scraping the DOM.
+function list_dir() {
+    var listing = [];
+    var links = document.getElementById('ls').getElementsByTagName('a');
+    for (var i = 0; i < links.length; i++) {
+        listing.push(links[i].textContent);
+    }
+    return listing;
+}
+
+// use the awesome greedy regex hack, from http://stackoverflow.com/a/1922153/10601
+function longestCommmonPrefix(lst) {
+    return lst.join(' ').match(/^(\S*)\S*(?: \1\S*)*$/i)[1];
+}
+
+function tabComplete(text, cursor_pos) {
+    var parts = shellquote.parse(text);
+    var current_part = parts[parts.length-1];
+    // TODO: find the current_part based on cursor_pos.
+    if (cursor_pos != text.length) {
+        console.warn('Mid-text tabcomplete is NYI.');
+    }
+    console.log(current_part);
+    var completions = [];
+    var ls = list_dir();
+    for (var i = 0; i < ls.length; i++) {
+        var name = ls[i];
+        if (name.indexOf(current_part) === 0) {
+            completions.push(name);
+        }
+    }
+    console.log(completions);
+    // prefix includes current_part
+    var prefix = longestCommmonPrefix(completions);
+    console.log(prefix);
+    if (prefix === '' || prefix === current_part) {
+        // We've no more sure completions to give, so show them all.
+        autocomplete_showing = true;
+        document.getElementById('autocomplete-container').style.display = 'table-row';
+        var autocomplete_display = document.getElementById('autocomplete-options');
+        autocomplete_display.innerHTML = '';
+        for (i = 0; i < completions.length; i++) {
+            autocomplete_display.innerHTML += completions[i] + ' ';
+        }
+        return text;
+    }
+    // Delete existing text so we can do case correction.
+    return text.substr(0, text.length -  current_part.length) + prefix;
+}
+
 var cmd_history = [''];
 var cmd_history_idx = 0;
+var autocomplete_showing = false;
 
 // Run a command.
 function cmd(event){
+    // Hides the autocomplete on every keystroke.
+    // TODO: This is a little overzealous, I think. Needs work.
+    if (autocomplete_showing) {
+        document.getElementById('autocomplete-container').style.display = 'none';
+        autocomplete_showing = false;
+    }
     var term_input = event.target.value;
     if (event.keyCode == 38) {
         // up arrow
@@ -46,6 +103,11 @@ function cmd(event){
         } else if (cmd_history_idx == cmd_history.length) {
             event.target.value = '';
         }
+        return;
+    } else if (event.keyCode == 9) {
+        // tab
+        event.target.value = tabComplete(term_input, event.target.selectionStart);
+        event.preventDefault();
         return;
     }
     // Make sure we've pressed enter on a non-empty input.

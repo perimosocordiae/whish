@@ -42,7 +42,12 @@
  <tr>
   <td id='term-prompt'>whish &gt;</td>
   <td>
-   <input type='text' id='term-input' onkeyup='cmd(event)' autofocus='autofocus'>
+   <input type='text' id='term-input' onkeydown='cmd(event)' autofocus='autofocus'>
+  </td>
+ </tr>
+ <tr id='autocomplete-container'>
+  <td colspan='2'>
+   <div id='autocomplete-options'></div>
   </td>
  </tr>
  <tr>
