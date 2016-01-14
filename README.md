@@ -6,7 +6,8 @@ Bringing the discoverability and interactivity of web content to your shell.
 ## Getting Started
 
   1. Install Python 2.7 (version 2.6 is ok).
-  2. Install the required Python libraries: `pip install python-magic tornado pygments`
+  2. Install the required Python libraries:
+     `pip install python-magic tornado pygments jupyter`
   3. Run the server: `python server.py`
 
 ## Features / TODO
